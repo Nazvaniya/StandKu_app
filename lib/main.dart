@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stand_app/splashscreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'StandKu App'),
+      home: SplashScreen(),
     );
   }
 }
