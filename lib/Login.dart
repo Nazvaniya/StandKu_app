@@ -4,7 +4,6 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
         body: Center(
       child: Container(
         child: Column(
@@ -48,10 +47,6 @@ class Login extends StatelessWidget {
                 ])
           ],
         ),
-=======
-      appBar: AppBar(
-        title: Text("Login"),
->>>>>>> df86205af8b08b5ee456e9df5f0388ef9ccf39ef
       ),
     ));
   }
