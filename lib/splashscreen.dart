@@ -36,7 +36,7 @@ class _SplashScreen extends State<SplashScreen> {
               image: AssetImage("images/logo.PNG"),
             ),
             Text(
-              "StandKu",
+              "Polibatam",
               style: TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
