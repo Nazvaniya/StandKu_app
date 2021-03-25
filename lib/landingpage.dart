@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget {
+class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,12 +10,12 @@ class Login extends StatelessWidget {
           children: <Widget>[
             Image(
               alignment: Alignment.topCenter,
-              width: 500,
-              height: 250,
+              width: 800,
+              height: 450,
               image: AssetImage("images/logo.PNG"),
             ),
             SizedBox(
-              height: 50,
+              height: 30,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
