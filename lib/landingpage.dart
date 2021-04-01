@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'login.dart';
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,9 +21,15 @@ class LandingPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 OutlineButton(
-                  onPressed: () {},
+                  color: Colors.lightBlue.shade200,
                   child: Text("Login"),
+
+                  onPressed: () {
+                    Navigator.push(context, 
+                    MaterialPageRoute(builder: (context)=>LoginScreen()));
+                  },
                 ),
+        
                 SizedBox(
                   width: 30,
                 ),
