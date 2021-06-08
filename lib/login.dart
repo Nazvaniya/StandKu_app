@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'register.dart';
+import 'home.dart';
 class LoginScreen extends StatefulWidget {
 
   @override
@@ -110,31 +111,38 @@ Widget buildForgotPassBtn(){
   
   return Container(
     alignment: Alignment.centerRight,
-    child: FlatButton(
+    child: TextButton(
+      style: TextButton.styleFrom(
+        padding: EdgeInsets.only(right:0),
+      ),
       onPressed: () => print("Lupa Password ditekan"),
-      padding: EdgeInsets.only(right:0),
       child: Text(
         'Lupa Password?',
         style: TextStyle(
           color: Colors.white,
+          fontSize: 16,
           fontWeight: FontWeight.bold
         ),
       ),
     ),
   );
 }
-Widget buildLoginBtn(){
+Widget buildLoginBtn(context){
   return Container(
     padding: EdgeInsets.symmetric(vertical: 2),
     width: 200,
     height: 50,
-    child: RaisedButton(
-      elevation: 5,
-      onPressed: () => print('Login di tekan'),
-      shape: RoundedRectangleBorder(
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        elevation: 5,
+         shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10)
       ),
-      color: Colors.white,
+       primary: Colors.white,
+      ),
+       onPressed: ()  { 
+         Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (context)=> Home()));},  
       child: Text(
         'LOGIN',
         style: TextStyle(
@@ -146,6 +154,27 @@ Widget buildLoginBtn(){
     ),
   );
 } 
+Widget buildRegisBtn(context){
+       return Container(
+        alignment: Alignment.center,
+        child: TextButton(
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.only(top: 0),
+          ),
+          onPressed: () {
+            Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context)=>Register()));},
+          child: Text(
+            'Register Sekarang',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: FontWeight.bold
+            ),
+          ),
+        ),
+      );
+}
   class _LoginScreenState extends State<LoginScreen>{
 
     @override
@@ -166,7 +195,7 @@ Widget buildLoginBtn(){
                       colors: [
                         Color(0xFFD3FFF9),
                         Color(0xFF6EFFEB),
-                        Color(0xFF00FFDB),
+                       // Color(0xFF00FFDB),
                       ]
                     )
 
@@ -183,7 +212,7 @@ Widget buildLoginBtn(){
                       Text(
                         'MASUK',
                         style: TextStyle(
-                          color: Colors.lightBlueAccent,
+                          color: Colors.blueGrey,
                           fontSize: 36,
                           fontWeight: FontWeight.bold
                         ),
@@ -194,7 +223,21 @@ Widget buildLoginBtn(){
                   buildPassword(),
                   buildForgotPassBtn(),
                   SizedBox(height: 30,),
-                  buildLoginBtn()
+                  buildLoginBtn(context),
+                  SizedBox(height: 20,),
+                   Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget> [
+                        Text('Belum Punya Akun?'
+                        ,style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold
+                          ),
+              ),
+        ],
+    ),
+                  buildRegisBtn(context)
                     ],
                   ),
                   ),

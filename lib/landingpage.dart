@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:stand_app/register.dart';
 import 'login.dart';
+import 'register.dart';
+import 'home.dart';
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,8 +23,11 @@ class LandingPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                OutlineButton(
-                  color: Colors.lightBlue.shade200,
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                     primary: Colors.lightBlue.shade200,
+                  ),
+                 
                   child: Text("Login"),
 
                   onPressed: () {
@@ -33,10 +39,15 @@ class LandingPage extends StatelessWidget {
                 SizedBox(
                   width: 30,
                 ),
-                RaisedButton(
-                  onPressed: () {},
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                     primary: Colors.lightBlue.shade200,
+                  ),
+                  onPressed: () {  Navigator.push(context, 
+                    MaterialPageRoute(builder: (context)=>Register()));
+                  },
                   child: Text("Register"),
-                  color: Colors.lightBlue.shade200,
+                 
                 ),
               ],
             ),
@@ -47,9 +58,11 @@ class LandingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
+                TextButton(onPressed: () {Navigator.push(context,
+        MaterialPageRoute(builder: (context)=> Home()));}, child: Text(
                     'lanjut tanpa masuk',
-                  ),
+                  ))
+                  
                 ])
           ],
         ),
