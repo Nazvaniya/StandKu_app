@@ -255,7 +255,6 @@ class Register extends StatelessWidget {
             ImagePick(),
             CheckBox(),
               Container(
-                padding: EdgeInsets.only(top: 3, left: 3),
                 decoration:
                 BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
