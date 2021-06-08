@@ -60,7 +60,10 @@ class LandingPage extends StatelessWidget {
                 children: <Widget>[
                 TextButton(onPressed: () {Navigator.push(context,
         MaterialPageRoute(builder: (context)=> Home()));}, child: Text(
-                    'lanjut tanpa masuk',
+                    'Lanjut Tanpa Masuk',
+                    style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    ),
                   ))
                   
                 ])
