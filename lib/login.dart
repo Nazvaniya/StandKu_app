@@ -169,6 +169,7 @@ Widget buildRegisBtn(context){
             style: TextStyle(
               color: Colors.white,
               fontSize: 14,
+              decoration: TextDecoration.underline,
               fontWeight: FontWeight.bold
             ),
           ),
