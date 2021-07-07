@@ -2,17 +2,84 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-
+import 'package:path_provider/path_provider.dart';
+import 'package:stand_app/model/user.dart';
+import 'package:stand_app/utils/user_preferences.dart';
+import 'package:stand_app/widget/photo_widget.dart';
+import 'package:stand_app/widget/profile_widget.dart';
+import 'package:path/path.dart';
 
 import 'login.dart';
+
+class EditKtp extends StatefulWidget {
+  @override 
+  _EditKtpState createState() => _EditKtpState();
+}
+class _EditKtpState extends State<EditKtp> {
+    late User user; 
+
+  @override
+  void initState(){
+    super.initState();
+ user = UserPreferences.getUser();
+  } 
+
+  @override 
+  Widget build(BuildContext context){
+    return Container(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children:  [
+             PhotoWidget(
+           imagePath: user.imagePath, 
+           isEdit: true,
+           onClicked: () async {
+             final image = await ImagePicker()
+                  .getImage(source: ImageSource.gallery);
+
+                if (image == null) return;
+                
+                final directory = await getApplicationDocumentsDirectory();
+                final name = basename(image.path);
+                final imageFile = File('${directory.path}/$name');
+                 final newImage =
+                        await File(image.path).copy(imageFile.path);
+
+                    setState(() => user = user.copy(imagePath: newImage.path));
+           },
+           ),
+           SizedBox(width: 20),
+              Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  ElevatedButton(
+                      child: Text(
+                        "Upload KTP",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                    
+                      }),
+                ],
+          )
+          ],
+        ),
+    );
+  }
+  
+}
 
 class ImagePick extends StatefulWidget{
   @override
   _ImagePickState createState() => _ImagePickState();
+
+  
 } 
 final _picker = ImagePicker();
 class _ImagePickState extends State<ImagePick>{
-  File _selectedFile;
+  
+ late File _selectedFile;
   bool _inProcess = false;
 
   Widget getImageWidget() {
@@ -25,7 +92,7 @@ class _ImagePickState extends State<ImagePick>{
       );
     } else {
       return Image.asset(
-        "images/logo.PNG",
+        "images/ff.PNG",
         width: 80,
         height: 80,
         fit: BoxFit.cover,
@@ -36,9 +103,9 @@ class _ImagePickState extends State<ImagePick>{
       this.setState((){
         _inProcess = true;
       });
-      	PickedFile image = await _picker.getImage(source: source);
+      	PickedFile image = (await _picker.getImage(source: source))!;
           if(image != null){
-        File cropped = await ImageCropper.cropImage(
+        File cropped = (await ImageCropper.cropImage(
             sourcePath: image.path,
             aspectRatio: CropAspectRatio(
                 ratioX: 1, ratioY: 1),
@@ -52,7 +119,7 @@ class _ImagePickState extends State<ImagePick>{
               statusBarColor: Colors.deepOrange.shade900,
               backgroundColor: Colors.white,
             )
-        );
+        ))!;
 
         this.setState((){
           _selectedFile = cropped;
@@ -75,7 +142,7 @@ Widget build(BuildContext context){
         children: <Widget>[
           getImageWidget(),
             SizedBox(
-                  width: 30,
+                  width: 20,
                  ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -104,7 +171,7 @@ Widget build(BuildContext context){
 class MyChoice{
   String choice;
   int index;
-  MyChoice({this.index, this.choice});
+  MyChoice({required this.index, required this.choice});
 }
 
 class RadioGroup extends StatefulWidget{
@@ -176,7 +243,7 @@ Widget build(context){
             activeColor: Colors.blue,
             onChanged: (value) {
              setState(() {
-               setujuCb = value;
+               setujuCb = value!;
              });
             },
           ),
@@ -196,6 +263,8 @@ Widget build(context){
 }
 
 class Register extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,9 +321,10 @@ class Register extends StatelessWidget {
                 ],
               ),
             RadioGroup(), 
-            ImagePick(),
+            EditKtp(),
             CheckBox(),
               Container(
+                padding: EdgeInsets.only(top: 0, left: 0),
                 decoration:
                 BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
@@ -359,12 +429,12 @@ Widget inputNama({label})
                 horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  color: Colors.grey[400]
+                  color: Colors.grey
               ),
 
             ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400])
+                borderSide: BorderSide(color: Colors.grey)
             )
         ),
       ),
@@ -398,12 +468,12 @@ Widget inputEmail({label})
                 horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  color: Colors.grey[400]
+                  color: Colors.grey
               ),
 
             ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400])
+                borderSide: BorderSide(color: Colors.grey)
             )
         ),
       ),
@@ -437,12 +507,12 @@ Widget inputPhone({label})
                 horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  color: Colors.grey[400]
+                  color: Colors.grey
               ),
 
             ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400])
+                borderSide: BorderSide(color: Colors.grey)
             )
         ),
       ),
@@ -476,12 +546,12 @@ Widget inputPass({label, obscureText = false})
                 horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                  color: Colors.grey[400]
+                  color: Colors.grey
               ),
 
             ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400])
+                borderSide: BorderSide(color: Colors.grey)
             )
         ),
       ),

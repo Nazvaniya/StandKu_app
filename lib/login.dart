@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stand_app/widget/navbar_widget.dart';
 import 'register.dart';
 import 'home.dart';
 class LoginScreen extends StatefulWidget {
@@ -142,7 +143,7 @@ Widget buildLoginBtn(context){
       ),
        onPressed: ()  { 
          Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context)=> Home()));},  
+        MaterialPageRoute(builder: (context)=> NavBar()));},  
       child: Text(
         'LOGIN',
         style: TextStyle(
@@ -167,9 +168,9 @@ Widget buildRegisBtn(context){
           child: Text(
             'Register Sekarang',
             style: TextStyle(
+              decoration:TextDecoration.underline,
               color: Colors.white,
               fontSize: 14,
-              decoration: TextDecoration.underline,
               fontWeight: FontWeight.bold
             ),
           ),

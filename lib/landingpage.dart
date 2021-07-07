@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stand_app/register.dart';
+import 'package:stand_app/widget/navbar_widget.dart';
 import 'login.dart';
 import 'register.dart';
 import 'home.dart';
@@ -59,11 +60,8 @@ class LandingPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                 TextButton(onPressed: () {Navigator.push(context,
-        MaterialPageRoute(builder: (context)=> Home()));}, child: Text(
-                    'Lanjut Tanpa Masuk',
-                    style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    ),
+        MaterialPageRoute(builder: (context)=> NavBar()));}, child: Text(
+                    'lanjut tanpa masuk',
                   ))
                   
                 ])
