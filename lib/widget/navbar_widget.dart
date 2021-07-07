@@ -36,7 +36,7 @@ class _NavBarState extends State<NavBar>{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MaterialButton(
-                        minWidth: 100,
+                        minWidth: 81,
                         onPressed: () {
                           setState(() {
                           currentScreen = Home();
