@@ -1,1 +1,0 @@
-# StandKu_app
