@@ -16,7 +16,7 @@ class EditKtp extends StatefulWidget {
   _EditKtpState createState() => _EditKtpState();
 }
 class _EditKtpState extends State<EditKtp> {
-    late User user; 
+     User user; 
 
   @override
   void initState(){
@@ -79,7 +79,7 @@ class ImagePick extends StatefulWidget{
 final _picker = ImagePicker();
 class _ImagePickState extends State<ImagePick>{
   
- late File _selectedFile;
+  File _selectedFile;
   bool _inProcess = false;
 
   Widget getImageWidget() {
@@ -103,7 +103,7 @@ class _ImagePickState extends State<ImagePick>{
       this.setState((){
         _inProcess = true;
       });
-      	PickedFile image = (await _picker.getImage(source: source))!;
+      	PickedFile image = (await _picker.getImage(source: source));
           if(image != null){
         File cropped = (await ImageCropper.cropImage(
             sourcePath: image.path,
@@ -119,7 +119,7 @@ class _ImagePickState extends State<ImagePick>{
               statusBarColor: Colors.deepOrange.shade900,
               backgroundColor: Colors.white,
             )
-        ))!;
+        ));
 
         this.setState((){
           _selectedFile = cropped;
@@ -171,7 +171,7 @@ Widget build(BuildContext context){
 class MyChoice{
   String choice;
   int index;
-  MyChoice({required this.index, required this.choice});
+  MyChoice({ this.index,  this.choice});
 }
 
 class RadioGroup extends StatefulWidget{
@@ -243,7 +243,7 @@ Widget build(context){
             activeColor: Colors.blue,
             onChanged: (value) {
              setState(() {
-               setujuCb = value!;
+               setujuCb = value;
              });
             },
           ),

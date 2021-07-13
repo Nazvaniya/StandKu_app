@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'editProfil.dart';
+import 'package:stand_app/page/home_page.dart';
 import 'package:stand_app/page/profile_page.dart';
+import 'package:stand_app/utils/user_preferences.dart';
+import 'package:stand_app/widget/photo_profile.dart';
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -10,6 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+    final user = UserPreferences.getUser();
   int _selectedItemIndex = 0;
    @override
   Widget build(BuildContext context) {
@@ -35,8 +38,8 @@ class _HomeState extends State<Home> {
                       "https://i.ytimg.com/vi/cCUVGMgO0k0/maxresdefault.jpg",
                       "https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=940"),
                   buildPostSection(
-                      "https://i.ytimg.com/vi/cCUVGMgO0k0/maxresdefault.jpg",
-                      "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=640"),
+                      "https://cdn.idntimes.com/content-images/post/20210503/whatsapp-image-2021-05-03-at-102849-am-bd5295c6b01ab89207f2f52af1a1262e_600x400.jpeg",
+                      "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=640", ),
                   buildPostSection(
                       "https://i.ytimg.com/vi/cCUVGMgO0k0/maxresdefault.jpg",
                       "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=100&w=640"),
@@ -106,7 +109,7 @@ class _HomeState extends State<Home> {
      );
    }
 
-     Container buildPostSection(String urlPost, String urlProfilePhoto) {
+     Container buildPostSection(String urlPost, String urlProfilePhoto,) {
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
@@ -117,11 +120,11 @@ class _HomeState extends State<Home> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildPostFirstRow(urlProfilePhoto),
+          buildPostFirstRow(),
           SizedBox(
             height: 10,
           ),
-          buildPostPicture(urlPost),
+          buildPostPicture(urlPost,),
           SizedBox(
             height: 5,
           ),
@@ -139,7 +142,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-  Row buildPostFirstRow(String urlProfilePhoto) {
+  Row buildPostFirstRow() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -147,16 +150,18 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: (){
-                
+              onTap: ()  {
+                 
               },
-                 child: Hero(
-                tag: urlProfilePhoto,
-                            child: CircleAvatar(
-                  radius: 12,
-                  backgroundImage: NetworkImage(urlProfilePhoto),
-                ),
-              ),
+                 child: PhotoProfile(
+                        imagePath: user.imagePath,
+                          onClicked: () async {
+                        await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                  setState(() {});
+                },
+          ),
             ),
             SizedBox(
               width: 5,

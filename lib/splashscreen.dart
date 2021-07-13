@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:stand_app/editProfil.dart';
+import 'package:stand_app/page/home.dart';
 import 'package:stand_app/landingpage.dart';
 import 'package:stand_app/page/edit_profile_page.dart';
+import 'package:stand_app/page/home_page.dart';
 import 'package:stand_app/widget/navbar_widget.dart';
 
 class SplashScreen extends StatefulWidget {

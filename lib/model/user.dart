@@ -8,23 +8,23 @@ class User {
   final String jenis;
 
   const User({
-     required this.imagePath,
-     required this.name,
-     required this.job,
-     required this.alamat,
-     required this.email,
-     required this.nomor,
-     required this.jenis,
+      this.imagePath,
+      this.name,
+      this.job,
+      this.alamat,
+      this.email,
+      this.nomor,
+      this.jenis,
   });
 
   User copy({
-   String? name,
-   String? job,
-   String? email,
-   String? imagePath,
-   String? alamat,
-   String? nomor,
-   String? jenis,
+   String name,
+   String job,
+   String email,
+   String imagePath,
+   String alamat,
+   String nomor,
+   String jenis,
   }) =>
     User(
       imagePath: imagePath ?? this.imagePath,

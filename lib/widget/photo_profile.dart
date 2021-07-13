@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-class PhotoWidget extends StatelessWidget {
+class PhotoProfile extends StatelessWidget {
   final String imagePath;
   final bool isEdit;
   final VoidCallback onClicked;
 
-  const PhotoWidget({
+  const PhotoProfile({
     Key key,
       this.imagePath,
      this.isEdit = false,
@@ -22,11 +22,6 @@ class PhotoWidget extends StatelessWidget {
       child: Stack(
         children: [
           buildImage(),
-          Positioned(
-            bottom: 0,
-            right: 4,
-            child: buildEditIcon(color),
-          ),
         ],
       ),
     );
@@ -37,33 +32,21 @@ class PhotoWidget extends StatelessWidget {
         ? NetworkImage(imagePath)
         : FileImage(File(imagePath));
 
-    return ClipRRect(
+    return ClipOval(
       child: Material(
         color: Colors.transparent,
         child: Ink.image(
           image: image as ImageProvider,
           fit: BoxFit.cover,
-          width: 128,
-          height: 80,
+          width: 40,
+          height: 40,
           child: InkWell(onTap: onClicked),
         ),
       ),
     );
   }
 
-  Widget buildEditIcon(Color color) => buildCircle(
-        color: Colors.white,
-        all: 3,
-        child: buildCircle(
-          color: color,
-          all: 8,
-          child: Icon(
-            isEdit ? Icons.add_a_photo : Icons.edit,
-            color: Colors.white,
-            size: 20,
-          ),
-        ),
-      );
+  
 
   Widget buildCircle({
       Widget child,

@@ -8,10 +8,10 @@ class TextFieldWidget extends StatefulWidget {
   final ValueChanged<String> onChanged;
 
   const TextFieldWidget({
-    Key? key,
-    required this.label,
-    required this.text,
-    required this.onChanged,
+    Key key,
+     this.label,
+     this.text,
+     this.onChanged,
   }) : super(key: key);
 
   @override 
@@ -19,7 +19,7 @@ class TextFieldWidget extends StatefulWidget {
 }
 
 class _TextFieldWidgetState extends State<TextFieldWidget> {
-  late final TextEditingController controller;
+    TextEditingController controller;
   @override
   void initState(){
     super.initState();

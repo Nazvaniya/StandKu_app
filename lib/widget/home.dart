@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'editProfil.dart';
 import 'package:stand_app/page/profile_page.dart';
 class Home extends StatefulWidget {
   @override

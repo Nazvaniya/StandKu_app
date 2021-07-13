@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stand_app/model/user.dart';
 
 class UserPreferences {
-  static late SharedPreferences _preferences;
+  static  SharedPreferences _preferences;
 
   static const _keyUser = 'user';
   static const myUser = User (
