@@ -1,4 +1,4 @@
-class User {
+class People {
   final String imagePath;
   final String name;
   final String job;
@@ -7,7 +7,7 @@ class User {
   final String nomor;
   final String jenis;
 
-  const User({
+  const People({
       this.imagePath,
       this.name,
       this.job,
@@ -17,7 +17,7 @@ class User {
       this.jenis,
   });
 
-  User copy({
+  People copy({
    String name,
    String job,
    String email,
@@ -26,7 +26,7 @@ class User {
    String nomor,
    String jenis,
   }) =>
-    User(
+    People(
       imagePath: imagePath ?? this.imagePath,
       name:  this.name,
       job: this.job,
@@ -35,7 +35,7 @@ class User {
       nomor: nomor ?? this.nomor,
       jenis: jenis ?? this.jenis,
     );
-  static User fromJson(Map<String, dynamic> json) => User(
+  static People fromJson(Map<String, dynamic> json) => People(
     imagePath: json['imagePath'],
     name: json['name'],
     job: json['job'],

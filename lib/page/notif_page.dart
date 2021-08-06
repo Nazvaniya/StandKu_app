@@ -1,91 +1,46 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:stand_app/landingpage.dart';
-import 'package:stand_app/model/user.dart';
 import 'package:stand_app/page/add_event%20copy.dart';
-import 'package:stand_app/page/edit_profile_page.dart';
 import 'package:stand_app/page/event_page.dart';
-import 'package:stand_app/page/notif_page.dart';
+import 'package:stand_app/model/user.dart';
+import 'package:stand_app/page/detail.dart';
+import 'package:stand_app/page/home_page%20copy.dart';
+import 'package:stand_app/page/profile_page.dart';
 import 'package:stand_app/page/search_page.dart';
-import 'package:stand_app/utils/auth_services.dart';
 import 'package:stand_app/utils/user_preferences.dart';
-import 'package:stand_app/widget/profile_widget.dart';
-import 'package:stand_app/widget/wrapper.dart';
+import 'package:stand_app/widget/photo_profile.dart';
 
 
-class ProfilePage extends StatefulWidget {
+
+
+
+
+
+class NotifPage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _NotifPageState createState() => _NotifPageState();
 }
 
-
-
-class _ProfilePageState extends State<ProfilePage> {
-   User user;
-   
-  final AuthServices _firebaseAuth = AuthServices();
-  int _selectedItemIndex = 4;
-  @override 
-  Widget build(BuildContext context){
+class _NotifPageState extends State<NotifPage> {
+ User user;
+  int index;
+   int _selectedItemIndex = 3;
     final people = UserPreferences.getUser();
 
+ Widget build(BuildContext context){
     return Scaffold(
-       
-      body: ListView(
-        physics: BouncingScrollPhysics(),
-        children: <Widget>[
-          SizedBox(height: 10,),
-          ProfileWidget(
-            imagePath: people.imagePath,
-            onClicked: () async {
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => EditProfilePage()),
-                  );
-                  setState(() {});
-                },
-          ),
-          const SizedBox(height: 30,),
-          buildName(people),
-          const SizedBox(height: 40,),
-          buildText(people),
-           Container(
-             margin: EdgeInsets.all(50),
-             child: ElevatedButton(
-              
-      style: ElevatedButton.styleFrom(
-        elevation: 5,
-         shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10)
-      ),
-       primary: Colors.white,
+      appBar: AppBar(
+        title: Text('Notifikasi'),
+       automaticallyImplyLeading: false,
       ),
       
-       onPressed: ()  async{ 
-       await AuthServices.signOut().then((authResult) {
-         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
-       });
-       },  
-      child: Text(
-        'Keluar',
-        style: TextStyle(
-          color: Colors.blue,
-          fontSize: 18,
-          fontWeight: FontWeight.bold
-        ),
-      ),
-    ),
-           ),
-        ],
-        
-      ),
+      body: _buildListView(context),
        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         height: 60,
         child: FittedBox(
           child: FloatingActionButton(
-            onPressed: ()  { 
+           onPressed: ()  { 
                       Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (context)=> AddEvent()));},
             child: Icon(
@@ -96,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
+       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(color: Colors.grey  .withOpacity(0.1),
@@ -116,9 +71,111 @@ class _ProfilePageState extends State<ProfilePage> {
         ],),
       ),
     );
-    
   }
-    Widget buildNavBarItem(IconData icon, int index) {
+
+  ListView _buildListView(BuildContext context){
+    return ListView.builder(
+      itemCount: 3,
+       itemBuilder: (context, index) {
+         return InkWell(
+           onTap: (){
+            
+           },
+           child: Container (
+             height: 150,
+             child: Card(
+               elevation: 10,
+              child: Column(
+                children: <Widget> [
+                buildPostWidget(context, index)
+                ],
+              ),
+              ),
+           ),
+         );
+         
+       },
+    );
+  }
+
+  Widget buildPostWidget(BuildContext context, int index ){
+    return Container(
+      
+          child: Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+        
+        child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+               
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 0, 0, 12),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      child: Container(
+                        width: 40,
+                        height: 48,
+                        clipBehavior: Clip.antiAlias,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                        ),
+                       child:  PhotoProfile(
+                        imagePath: people.imagePath,
+                         onClicked: () async {
+                        await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ProfilePage()),
+                  );
+                  
+                },
+          ),
+                        ),
+                      ),
+                    
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(people.name),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 0, 15, 0),
+                  child: Icon(
+                    Icons.keyboard_control,
+                    color: Colors.black,
+                    size: 30,
+                  ),
+                )
+              ],
+              ),
+              ),
+            
+              Padding(
+                padding: EdgeInsets.fromLTRB(15, 10, 0, 0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text("Pemesanan Stand A$index pada Event NIGHT" ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                  child: Text("Batam"),
+                )
+                  ],
+                ),
+              ),
+            
+
+            ],
+          ),
+    ));
+  }
+   Widget buildNavBarItem(IconData icon, int index) {
      return GestureDetector(
        onTap: (){
          setState(() {
@@ -181,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
           
      );
    }
-      Widget buildNavBarItemNotif(IconData icon, int index) {
+   Widget buildNavBarItemNotif(IconData icon, int index) {
      return GestureDetector(
        onTap: (){
          setState(() {
@@ -226,62 +283,4 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 
- Widget buildName(People people) => Column(
-        children: [
-          Text(
-            people.name,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            people.job,
-            style: TextStyle(color: Colors.grey),
-          )
-        ],
-      );
-   Widget buildText(People people) => Column(
-     crossAxisAlignment: CrossAxisAlignment.start,
-  
-        children: <Widget> [
-          Container( 
-         alignment: Alignment.centerLeft,
-         padding: EdgeInsets.only(left:20),
-          child: Text(
-           "Nama " "        : " + people.name,
-            style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          ),
-          const SizedBox(height: 24),
-          Container(
-         alignment: Alignment.centerLeft,
-         padding: EdgeInsets.only(left:20),
-          child: Text(
-           "Alamat " "      : " + people.alamat,
-           style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          ),
-           const SizedBox(height: 24),
-           Container(
-         alignment: Alignment.centerLeft,
-         padding: EdgeInsets.only(left:20),
-          child: Text(
-          "Email: " "        : " +  people.email,
-           style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-          ),
-           const SizedBox(height: 24),
-           Container(
-         alignment: Alignment.centerLeft,
-         padding: EdgeInsets.only(left:20),
-          child: Text(
-          "Nomor " "       : " +  people.nomor,
-           style: TextStyle(color: Colors.black, fontSize: 18),
-          ),
-           ),
-           const SizedBox(height: 24),
-          
-          
-        ],
-      );
 
- 

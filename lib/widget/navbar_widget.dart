@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stand_app/page/home.dart';
+import 'package:stand_app/page/Beranda.dart';
+import 'package:stand_app/page/event_page.dart';
 import 'package:stand_app/page/profile_page.dart';
 
 class NavBar extends StatefulWidget {
@@ -10,11 +11,11 @@ class _NavBarState extends State<NavBar>{
   int currentTab = 0;
   final List<Widget> screens = [ 
     ProfilePage(),
-    Home(),
+    BerandaPage(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = Home(); 
+  Widget currentScreen = BerandaPage(); 
 
   @override 
   Widget build(BuildContext context){
@@ -39,7 +40,7 @@ class _NavBarState extends State<NavBar>{
                         minWidth: 81,
                         onPressed: () {
                           setState(() {
-                          currentScreen = Home();
+                          currentScreen = BerandaPage();
                           currentTab = 0;                            
                                                     });
                         
@@ -90,7 +91,7 @@ class _NavBarState extends State<NavBar>{
                         minWidth: 50,
                         onPressed: () {
                           setState(() {
-                          currentScreen = Home();
+                          currentScreen = EventPage();
                           currentTab = 2;                            
                                        });
                         

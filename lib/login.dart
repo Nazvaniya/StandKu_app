@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stand_app/widget/navbar_widget.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:stand_app/page/forget_password.dart';
+import 'package:stand_app/utils/auth_services.dart';
+import 'package:stand_app/utils/display_toas.dart';
 import 'register.dart';
-import 'home.dart';
 class LoginScreen extends StatefulWidget {
 
   @override
   _LoginScreenState createState() => _LoginScreenState();
   }
-
+    final formKey = GlobalKey<FormState>();
+    final passKey = GlobalKey<FormState>();
+   final AuthServices _firebaseAuth = AuthServices();   
+TextEditingController emailController =TextEditingController(text: "");
+ TextEditingController passwordController = TextEditingController(text: "");
 Widget buildEmail(){
+ 
+ 
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -36,22 +45,33 @@ Widget buildEmail(){
           ]
         ),
         height: 60,
-        child: TextField(
-          keyboardType: TextInputType.emailAddress,
-          style: TextStyle(
-            color: Colors.black87
-          ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 14),
-            prefixIcon: Icon(
-              Icons.email,
-              color: Colors.blueGrey,
+        child: Form(
+          key: formKey,
+          child: TextFormField(
+            controller: emailController,
+             validator: (value){
+                        if(value.isEmpty){
+                          return 'Email Kosong!';
+                        }else {
+                          return null;
+                        }
+                      },
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+              color: Colors.black87
             ),
-            hintText: 'Email',
-            hintStyle: TextStyle(
-              color: Colors.black38
-            )
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14),
+              prefixIcon: Icon(
+                Icons.email,
+                color: Colors.blueGrey,
+              ),
+              hintText: 'Email',
+              hintStyle: TextStyle(
+                color: Colors.black38
+              )
+            ),
           ),
         ),
       )
@@ -59,6 +79,7 @@ Widget buildEmail(){
   );
 }
 Widget buildPassword(){
+
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -85,29 +106,40 @@ Widget buildPassword(){
           ]
         ),
         height: 60,
-        child: TextField(
-          obscureText: true,
-          style: TextStyle(
-            color: Colors.black87
-          ),
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            contentPadding: EdgeInsets.only(top: 14),
-            prefixIcon: Icon(
-              Icons.lock,
-              color: Colors.blueGrey,
+        child: Form(
+          key:passKey,
+          child: TextFormField(
+            controller: passwordController,
+             validator: (value){
+                        if(value.isEmpty){
+                          return 'Password Kosong';
+                        }else {
+                          return null;
+                        }
+                      },
+            obscureText: true,
+            style: TextStyle(
+              color: Colors.black87
             ),
-            hintText: 'Password',
-            hintStyle: TextStyle(
-              color: Colors.black38
-            )
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              contentPadding: EdgeInsets.only(top: 14),
+              prefixIcon: Icon(
+                Icons.lock,
+                color: Colors.blueGrey,
+              ),
+              hintText: 'Password',
+              hintStyle: TextStyle(
+                color: Colors.black38
+              )
+            ),
           ),
         ),
       )
     ],
   );
 }
-Widget buildForgotPassBtn(){
+Widget buildForgotPassBtn(context){
 
   
   return Container(
@@ -116,7 +148,9 @@ Widget buildForgotPassBtn(){
       style: TextButton.styleFrom(
         padding: EdgeInsets.only(right:0),
       ),
-      onPressed: () => print("Lupa Password ditekan"),
+      onPressed: () {
+            Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context)=>forgetPassword()));},
       child: Text(
         'Lupa Password?',
         style: TextStyle(
@@ -129,7 +163,9 @@ Widget buildForgotPassBtn(){
   );
 }
 Widget buildLoginBtn(context){
-  return Container(
+   
+
+  return Container (
     padding: EdgeInsets.symmetric(vertical: 2),
     width: 200,
     height: 50,
@@ -141,9 +177,21 @@ Widget buildLoginBtn(context){
       ),
        primary: Colors.white,
       ),
-       onPressed: ()  { 
-         Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context)=> NavBar()));},  
+       onPressed: ()  async{ 
+      if (!emailController.text.contains("@")){
+                      displayToastMessage("alamat email tidak valid", context);
+      }  else if(passwordController.text.isEmpty){
+                      displayToastMessage("Password Kosong", context);
+      } else if(formKey.currentState.validate() || (passKey.currentState.validate()) ){
+         await AuthServices.signIn(emailController.text, passwordController.text, context).then((authResult) {
+         Navigator.of(context).pop();
+       }); 
+      }else{
+      
+      }
+    
+       }, 
+
       child: Text(
         'LOGIN',
         style: TextStyle(
@@ -178,8 +226,9 @@ Widget buildRegisBtn(context){
       );
 }
   class _LoginScreenState extends State<LoginScreen>{
-
-    @override
+  
+ 
+      @override
     Widget build(BuildContext context){
       return Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -195,9 +244,10 @@ Widget buildRegisBtn(context){
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Color(0xFFD3FFF9),
-                        Color(0xFF6EFFEB),
-                       // Color(0xFF00FFDB),
+
+                        Color(0xFF18B6F7),
+                        Color(0xFF9B78E1),
+                       //(0xFF00FFDB),
                       ]
                     )
 
@@ -214,7 +264,7 @@ Widget buildRegisBtn(context){
                       Text(
                         'MASUK',
                         style: TextStyle(
-                          color: Colors.blueGrey,
+                          color: Colors.white,
                           fontSize: 36,
                           fontWeight: FontWeight.bold
                         ),
@@ -223,7 +273,7 @@ Widget buildRegisBtn(context){
                   buildEmail(),
                   SizedBox(height: 20,),
                   buildPassword(),
-                  buildForgotPassBtn(),
+                  buildForgotPassBtn(context),
                   SizedBox(height: 30,),
                   buildLoginBtn(context),
                   SizedBox(height: 20,),

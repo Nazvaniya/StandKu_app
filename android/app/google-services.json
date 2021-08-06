@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "715290746400",
+    "firebase_url": "https://standapp-7c328-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "standapp-7c328",
+    "storage_bucket": "standapp-7c328.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715290746400:android:85ad56d499622b725ce645",
+        "android_client_info": {
+          "package_name": "com.example.stand_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "715290746400-m5arp29gfoingsv6kjf9nrcjmtqb7f0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN9VByy0IE4jkHj9vFrgINZYHmPMLlN4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "715290746400-m5arp29gfoingsv6kjf9nrcjmtqb7f0h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

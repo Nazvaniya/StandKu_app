@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:stand_app/page/profile_page.dart';
+import 'package:stand_app/widget/navbar_widget.dart';
 
 AppBar buildAppBar(BuildContext context) {
 
@@ -11,7 +13,9 @@ AppBar buildAppBar(BuildContext context) {
               Icons.arrow_back,
               color: Colors.white,
             ),
-            onPressed: (){},
+            onPressed: () {
+            Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context)=>ProfilePage()));},
           ),
        
   );

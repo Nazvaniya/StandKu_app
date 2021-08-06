@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget{
 }
 
 class _HomePageState extends State<HomePage>{
-      final user = UserPreferences.getUser();
+      final people = UserPreferences.getUser();
   @override 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage>{
                           shape: BoxShape.circle,
                         ),
                         child:  PhotoProfile(
-                        imagePath: user.imagePath,
+                        imagePath: people.imagePath,
                           onClicked: () async {
                         await Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => ProfilePage()),
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage>{
                     
                     Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      child: Text(user.name),
+                      child: Text(people.name),
                     ),
                   ],
                 ),

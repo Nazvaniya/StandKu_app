@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:stand_app/editProfil.dart';
-import 'package:stand_app/page/home.dart';
-import 'package:stand_app/landingpage.dart';
-import 'package:stand_app/page/edit_profile_page.dart';
-import 'package:stand_app/page/home_page.dart';
-import 'package:stand_app/widget/navbar_widget.dart';
+import 'package:stand_app/page/add_event%20copy.dart';
+import 'package:stand_app/page/main_page.dart';
+import 'package:stand_app/widget/wrapper.dart';
 
 class SplashScreen extends StatefulWidget {
   _SplashScreen createState() => _SplashScreen();
@@ -23,7 +20,7 @@ class _SplashScreen extends State<SplashScreen> {
     return Timer(duration, () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => LandingPage()),
+        MaterialPageRoute(builder: (context) => Wrapper()),
       );
     });
   }
@@ -36,17 +33,13 @@ class _SplashScreen extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image(
-              image: AssetImage("images/logo.PNG"),
-            ),
-            Text(
-              "StandKu",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 30.0,
+            Container(
+              width: 250,
+              child: Image(
+                image: AssetImage("images/logo.PNG"),
               ),
-            )
+            ),
+          
           ],
         ),
       ),

@@ -18,25 +18,25 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-    User user; 
+    People people; 
 
   @override
   void initState(){
     super.initState();
- user = UserPreferences.getUser();
+ people = UserPreferences.getUser();
   } 
 
 
   @override
   Widget build(BuildContext context) => Scaffold(
-     appBar: buildAppBar(context),
+     appBar: AppBar(),
      body: ListView(
        padding: EdgeInsets.symmetric(horizontal: 32),
        physics: BouncingScrollPhysics(),
        children: [
          SizedBox(height: 10,),
          ProfileWidget(
-           imagePath: user.imagePath, 
+           imagePath: people.imagePath, 
            isEdit: true,
            onClicked: () async {
              final image = await ImagePicker()
@@ -50,32 +50,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                  final newImage =
                         await File(image.path).copy(imageFile.path);
 
-                    setState(() => user = user.copy(imagePath: newImage.path));
+                    setState(() => people = people.copy(imagePath: newImage.path));
            },
            ),
            const SizedBox(height: 24), 
            TextFieldWidget(
              label: 'Alamat',
-             text: user.alamat,
-             onChanged: (alamat) => user = user.copy(alamat: alamat),
+             text: people.alamat,
+             onChanged: (alamat) => people = people.copy(alamat: alamat),
            ),
              const SizedBox(height: 14), 
             TextFieldWidget(
              label: 'Nomor',
-             text: user.nomor,
-             onChanged: (nomor) => user = user.copy(nomor: nomor) ,
-           ),
-             const SizedBox(height: 14), 
-            TextFieldWidget(
-             label: 'Jenis UKM',
-             text: user.jenis,
-             onChanged: (jenis) => user = user.copy(jenis: jenis),
+             text: people.nomor,
+             onChanged: (nomor) => people = people.copy(nomor: nomor) ,
            ),
            const SizedBox(height: 24),
            ButtonWidget(
              text: "Save",
              onClicked: () {
-               UserPreferences.setUser(user);
+               UserPreferences.setUser(people);
                Navigator.of(context).pop();
              },
            ),

@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:stand_app/main.dart';
 import 'package:stand_app/model/user.dart';
+import 'package:stand_app/utils/auth_services.dart';
+import 'package:stand_app/utils/display_toas.dart';
 import 'package:stand_app/utils/user_preferences.dart';
 import 'package:stand_app/widget/photo_widget.dart';
-import 'package:stand_app/widget/profile_widget.dart';
 import 'package:path/path.dart';
 
 import 'login.dart';
@@ -16,12 +20,12 @@ class EditKtp extends StatefulWidget {
   _EditKtpState createState() => _EditKtpState();
 }
 class _EditKtpState extends State<EditKtp> {
-     User user; 
+     People people; 
 
   @override
   void initState(){
     super.initState();
- user = UserPreferences.getUser();
+ people = UserPreferences.getUser();
   } 
 
   @override 
@@ -32,7 +36,7 @@ class _EditKtpState extends State<EditKtp> {
           mainAxisAlignment: MainAxisAlignment.start,
           children:  [
              PhotoWidget(
-           imagePath: user.imagePath, 
+           imagePath: people.imagePath, 
            isEdit: true,
            onClicked: () async {
              final image = await ImagePicker()
@@ -46,7 +50,7 @@ class _EditKtpState extends State<EditKtp> {
                  final newImage =
                         await File(image.path).copy(imageFile.path);
 
-                    setState(() => user = user.copy(imagePath: newImage.path));
+                    setState(() => people = people.copy(imagePath: newImage.path));
            },
            ),
            SizedBox(width: 20),
@@ -92,7 +96,7 @@ class _ImagePickState extends State<ImagePick>{
       );
     } else {
       return Image.asset(
-        "images/ff.PNG",
+        "images/logo.PNG",
         width: 80,
         height: 80,
         fit: BoxFit.cover,
@@ -154,7 +158,7 @@ Widget build(BuildContext context){
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
-                        getImage(ImageSource.camera);
+                        getImage(ImageSource.gallery);
                       }),
                 ],
           )
@@ -182,9 +186,9 @@ class RadioGroup extends StatefulWidget{
   }
 }
 class RadioGroupState extends State<RadioGroup>{
-  String default_choice = "Penyelenggara";
+ static String default_choice = "Penyelenggara";
   int default_index = 0;
-
+  var role;
   List<MyChoice> choices = [
     MyChoice(index:0,choice: "Penyelenggara"),
     MyChoice(index:1,choice: "Pedagang"),
@@ -205,6 +209,7 @@ class RadioGroupState extends State<RadioGroup>{
                   setState(() {
                     default_choice = data.choice;
                     default_index = data.index;
+
                   });
                 },
               )).toList(),
@@ -213,7 +218,7 @@ class RadioGroupState extends State<RadioGroup>{
         ]
       ),
       Padding(padding: EdgeInsets.all(0),
-      child: Text('$default_choice', style: TextStyle(fontSize: 16),),)
+      child:   Text('$default_choice', style: TextStyle(fontSize: 16),),)
       
       ],
     );
@@ -228,7 +233,7 @@ class CheckBox extends StatefulWidget{
 }
 
 class CheckBoxState extends State<CheckBox>{
-  bool setujuCb = false;
+ static bool setujuCb = false;
   @override
 Widget build(context){
   return Container(
@@ -262,7 +267,22 @@ Widget build(context){
 
 }
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
+
+
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+TextEditingController name = TextEditingController(text: "");
+ TextEditingController img = TextEditingController(text: "");
+ TextEditingController email = TextEditingController(text: "");
+ TextEditingController role = TextEditingController(text: "");
+ TextEditingController nomor = TextEditingController(text: "");
+ TextEditingController password = TextEditingController(text: "");
+ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+
+class _RegisterState extends State<Register> {
 
 
   @override
@@ -297,6 +317,7 @@ class Register extends StatelessWidget {
                 children: <Widget>[
                   Text("Registrasi",
                   style: TextStyle(
+                    color: Colors.indigo,
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
 
@@ -317,11 +338,11 @@ class Register extends StatelessWidget {
                   inputEmail(label: "Email"),
                   inputPhone(label: "Nomor Telepon" ),
                   inputPass(label: "Password", obscureText: true),
-                  inputPass(label: "Konfirmasi Password ", obscureText: true),
+                  
                 ],
               ),
             RadioGroup(), 
-            EditKtp(),
+            ImagePick(),
             CheckBox(),
               Container(
                 padding: EdgeInsets.only(top: 0, left: 0),
@@ -342,10 +363,30 @@ class Register extends StatelessWidget {
                 child: MaterialButton(
                   minWidth: double.infinity,
                   height: 60,
-                  onPressed: ()  { 
-                    Navigator.pushReplacement(context, 
-                    MaterialPageRoute(builder: (context)=>LoginScreen()));},
-                  color: Color(0xff0095FF),
+                  onPressed: () 
+                   { 
+                    if(name.text.length < 2)
+                    {
+                      displayToastMessage('nama kurang', context);
+                    }else if(!email.text.contains("@")){
+                      displayToastMessage("alamat email tidak valid", context);
+                    }else if(nomor.text.isEmpty)
+                    {
+                      displayToastMessage("Nomor tidak boleh kosong", context);
+                    }else if(password.text.length <5)
+                    {
+                      displayToastMessage("Password Kurang panjang", context);
+                    } else if(CheckBoxState.setujuCb == false){
+                      displayToastMessage("Belum Setuju Syarat & Ketentuan !", context);
+                    }else
+                    {
+                      AuthServices.registerNewUser(context).then((authResult) {
+                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+                       }); 
+                      
+                    }
+                    },
+                  color: Colors.indigo,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50),
@@ -422,7 +463,8 @@ Widget inputNama({label})
       SizedBox(
         height: 5,
       ),
-      TextField(
+      TextFormField(
+        controller: name,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0,
@@ -461,7 +503,9 @@ Widget inputEmail({label})
       SizedBox(
         height: 5,
       ),
-      TextField(
+      TextFormField(
+       
+        controller: email,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0,
@@ -500,7 +544,9 @@ Widget inputPhone({label})
       SizedBox(
         height: 5,
       ),
-      TextField(
+      TextFormField(
+        
+        controller: nomor,
         keyboardType: TextInputType.phone,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0,
@@ -539,7 +585,9 @@ Widget inputPass({label, obscureText = false})
       SizedBox(
         height: 5,
       ),
-      TextField(
+      TextFormField(
+        
+        controller: password,
         obscureText: obscureText,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0,
@@ -559,3 +607,4 @@ Widget inputPass({label, obscureText = false})
     ],
   );
 }
+
