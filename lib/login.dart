@@ -16,6 +16,7 @@ class LoginScreen extends StatefulWidget {
    final AuthServices _firebaseAuth = AuthServices();   
 TextEditingController emailController =TextEditingController(text: "");
  TextEditingController passwordController = TextEditingController(text: "");
+
 Widget buildEmail(){
  
  

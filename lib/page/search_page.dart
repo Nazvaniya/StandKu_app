@@ -15,7 +15,23 @@ class _SearchPageState extends State<SearchPage> {
   User user;
    int _selectedItemIndex = 1;
    TextEditingController _searchController = TextEditingController();
-  @override 
+  @override
+  void initState(){
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose(){
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  _onSearchChanged(){
+    print(_searchController.text);
+  }
+  
   Widget build(BuildContext context){
        return Scaffold(
       appBar: AppBar(

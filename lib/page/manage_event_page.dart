@@ -8,7 +8,9 @@ class ManageEventPage extends StatefulWidget {
   _ManageEventPageState createState() => _ManageEventPageState();
 }
 
+
 class _ManageEventPageState extends State<ManageEventPage>{
+
   @override 
 
   Widget build(BuildContext context){
@@ -29,6 +31,12 @@ class _ManageEventPageState extends State<ManageEventPage>{
           return ListView.builder(
             itemCount: snapshot.data.docs.length,
             itemBuilder: (context, index){
+                deletData() async{
+                CollectionReference collectionReference = FirebaseFirestore.instance.collection('event');
+                QuerySnapshot querySnapshot = await collectionReference.get();
+                querySnapshot.docs[index].reference.delete();
+              }
+              
               DocumentSnapshot event = snapshot.data.docs[index];
               return Container(
                      height: 350,
@@ -96,19 +104,24 @@ class _ManageEventPageState extends State<ManageEventPage>{
                                    padding: EdgeInsets.fromLTRB(20, 80, 10, 0),
                                    child: Row(
                                       children: [
-                                        Icon(Icons.edit),
-                                        Text('edit',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal
-                                      ),),
+                                    //   ElevatedButton
+                                    // (child: Icon(Icons.edit),
+                                    // onPressed:() 
+                                    // {
+                                    //  deletData();
+                                    // }
+                                    
+                                    // ),
                                     SizedBox(width: 50,),
-                                    Icon(Icons.delete),
-                                        Text('Hapus',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.normal
-                                      ),),
+                                    ElevatedButton
+                                    (child: Icon(Icons.delete),
+                                    onPressed:() 
+                                    {
+                                     deletData();
+                                    }
+                                    
+                                    ),
+                                      
                                       ]),
                                  ),
                               ],

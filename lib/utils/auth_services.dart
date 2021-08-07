@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:stand_app/landingpage.dart';
 import 'package:stand_app/login.dart';
@@ -18,17 +19,23 @@ class AuthServices {
 
  static Stream<User> get firebaseUserStream => _firebaseAuth.authStateChanges();
   
+  
   static Future<String> signIn(String email, String password, context) async{
     try{
     UserCredential authResult =  await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
     User user = authResult.user;
+    if(user != null){
     emailController.clear();
     passwordController.clear();
     displayToastMessage("Berhasil Login", context);
+   
+
+    }else {
+    }
     
     } catch (e) {
-       emailController.clear();
-    passwordController.clear();
+      emailController.clear();
+   passwordController.clear();
       print(e.toString());
       return displayToastMessage("Tidak Ada Akun, Silahkan Buat Akun", context);
     }
@@ -71,7 +78,6 @@ class AuthServices {
     try {
       UserCredential authResult = await _firebaseAuth.signInAnonymously();
       User user = authResult.user;
-       return user?.uid;
     } catch(e){
       print(e.toString());
       return null;
@@ -105,6 +111,67 @@ class AuthServices {
    
   }
  }
+ static Future<String> getUsername() async {
+    final ref = FirebaseDatabase.instance.reference();
+    User user = await _firebaseAuth.currentUser;
+
+    return ref.child('users').child(user.uid).once().then((DataSnapshot snap) {
+      final String userName = snap.value['name'].toString();
+     if (user != null){
+       return userName;
+     } else {
+       
+     }
+      print(userName);
+      return userName;
+    });
+  }
+   static Future<String> getNo() async {
+    final ref = FirebaseDatabase.instance.reference();
+    User user = await _firebaseAuth.currentUser;
+
+    return ref.child('users').child(user.uid).once().then((DataSnapshot snap) {
+      final String no = snap.value['nomor'].toString();
+     if (user != null){
+       return no;
+     } else {
+       
+     }
+      print(no);
+      return no;
+    });
+  }
+  static Future<String> getjob() async {
+    final ref = FirebaseDatabase.instance.reference();
+    User user = await _firebaseAuth.currentUser;
+
+    return ref.child('users').child(user.uid).once().then((DataSnapshot snap) {
+      final String job = snap.value['role'].toString();
+     if (user != null){
+       return job;
+     } else {
+       
+     }
+      print(job);
+      return job;
+    });
+  }
+   static Future<String> getEmail() async {
+    final ref = FirebaseDatabase.instance.reference();
+    User user = await _firebaseAuth.currentUser;
+
+    return ref.child('users').child(user.uid).once().then((DataSnapshot snap) {
+      final String emal = snap.value['email'].toString();
+     if (user != null){
+       return emal;
+     } else {
+       
+     }
+      print(emal);
+      return emal;
+    });
+  }
+
 
 }
 

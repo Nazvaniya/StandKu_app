@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stand_app/page/add_event%20copy.dart';
@@ -20,6 +21,7 @@ class EventPage extends StatefulWidget {
 class _EventPageState extends State<EventPage>{
    User user;
   final AuthServices _firebaseAuth = AuthServices();
+  
       final people = UserPreferences.getUser();
        int _selectedItemIndex = 0;
   @override 
