@@ -12,6 +12,7 @@ import 'package:stand_app/utils/display_toas.dart';
 import 'package:stand_app/utils/user_preferences.dart';
 import 'package:stand_app/widget/photo_widget.dart';
 import 'package:path/path.dart';
+import 'package:stand_app/widget/wrapper.dart';
 
 import 'login.dart';
 
@@ -154,7 +155,7 @@ Widget build(BuildContext context){
                   MaterialButton(
                       color: Colors.green,
                       child: Text(
-                        "Kamera",
+                        "Upload KTP",
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () {
@@ -381,7 +382,7 @@ class _RegisterState extends State<Register> {
                     }else
                     {
                       AuthServices.registerNewUser(context).then((authResult) {
-                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LoginScreen()));
+                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
                        }); 
                       
                     }
